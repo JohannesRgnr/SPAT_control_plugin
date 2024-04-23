@@ -292,7 +292,7 @@ void SPATControlAudioProcessor::parameterChanged(const juce::String& parameterID
         type = apvts.getRawParameterValue("TYPE")->load();
         
         
-        DBG("type: " << type);
+        // DBG("type: " << type);
     }
    
     

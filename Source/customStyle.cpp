@@ -62,15 +62,75 @@ namespace juce
 
     }
 
-    Label* CustomLNF::createSliderTextBox(Slider& Slider) 
+
+    Slider::SliderLayout CustomLNF::getSliderLayout(Slider& slider) 
     {
-        Label* CustomLNFLabelptr = LookAndFeel_V4::createSliderTextBox(Slider);
-        CustomLNFLabelptr->setColour(Label::textColourId, juce::Colours::black);
-        // CustomLNFLabelptr->setColour(Label::backgroundColourId, juce::Colours::black);
-        CustomLNFLabelptr->setColour(Label::outlineColourId, juce::Colours::transparentWhite);
-        CustomLNFLabelptr->setJustificationType(Justification::centredTop);
-        return CustomLNFLabelptr;
+        // 1. compute the actually visible textBox size from the slider textBox size and some additional constraints
+
+        int minXSpace = 0;
+        int minYSpace = 0;
+
+        auto textBoxPos = slider.getTextBoxPosition();
+
+        if (textBoxPos == Slider::TextBoxLeft || textBoxPos == Slider::TextBoxRight)
+            minXSpace = 30;
+        else
+            minYSpace = 15;
+
+        auto localBounds = slider.getLocalBounds();
+
+        auto textBoxWidth = jmax(0, jmin(slider.getTextBoxWidth(), localBounds.getWidth() - minXSpace));
+        auto textBoxHeight = jmax(0, jmin(slider.getTextBoxHeight(), localBounds.getHeight() - minYSpace));
+
+        Slider::SliderLayout layout;
+
+        // 2. set the textBox bounds
+
+        if (textBoxPos != Slider::NoTextBox)
+        {
+            if (slider.isBar())
+            {
+                layout.textBoxBounds = localBounds;
+            }
+            else
+            {
+                layout.textBoxBounds.setWidth(textBoxWidth);
+                layout.textBoxBounds.setHeight(textBoxHeight);
+
+                if (textBoxPos == Slider::TextBoxLeft)           layout.textBoxBounds.setX(0);
+                else if (textBoxPos == Slider::TextBoxRight)     layout.textBoxBounds.setX(localBounds.getWidth() - textBoxWidth);
+                else /* above or below -> centre horizontally */ layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
+
+                if (textBoxPos == Slider::TextBoxAbove)          layout.textBoxBounds.setY(0);
+                else if (textBoxPos == Slider::TextBoxBelow)     layout.textBoxBounds.setY(localBounds.getHeight() - textBoxHeight - 15); // get textbox closer to dial
+                else /* left or right -> centre vertically */    layout.textBoxBounds.setY((localBounds.getHeight() - textBoxHeight) / 2);
+            }
+        }
+
+        // 3. set the slider bounds
+
+        layout.sliderBounds = localBounds;
+
+        if (slider.isBar())
+        {
+            layout.sliderBounds.reduce(1, 1);   // bar border
+        }
+        else
+        {
+            if (textBoxPos == Slider::TextBoxLeft)       layout.sliderBounds.removeFromLeft(textBoxWidth);
+            else if (textBoxPos == Slider::TextBoxRight) layout.sliderBounds.removeFromRight(textBoxWidth);
+            else if (textBoxPos == Slider::TextBoxAbove) layout.sliderBounds.removeFromTop(textBoxHeight);
+            else if (textBoxPos == Slider::TextBoxBelow) layout.sliderBounds.removeFromBottom(textBoxHeight);
+
+            const int thumbIndent = getSliderThumbRadius(slider);
+
+            if (slider.isHorizontal())    layout.sliderBounds.reduce(thumbIndent, 0);
+            else if (slider.isVertical()) layout.sliderBounds.reduce(0, thumbIndent);
+        }
+
+        return layout;
     }
+
 
 
 

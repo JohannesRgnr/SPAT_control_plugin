@@ -19,11 +19,6 @@ SPATControlAudioProcessorEditor::SPATControlAudioProcessorEditor (SPATControlAud
 
     setSize (460, 330);
     setWantsKeyboardFocus(true);
-
-    //presSlider.setRotaryParameters(0, juce::MathConstants<float>::twoPi, 0);
-    //presSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
-    // presSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-
     
     typeBox.addItem("mono", 1);
     typeBox.setColour(juce::ComboBox::backgroundColourId, juce::Colours::lightgrey);
@@ -50,19 +45,6 @@ SPATControlAudioProcessorEditor::SPATControlAudioProcessorEditor (SPATControlAud
 
     envLabel.setText("Envelopment", juce::dontSendNotification);
     envLabel.attachToComponent(&envSlider, false);
-
-    presSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    presSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
-    warmthSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    warmthSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
-    brillianceSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    brillianceSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
-    roomPresSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    roomPresSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
-    runRevSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    runRevSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
-    envSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::orange);
-    envSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
 
     azimSlider.setRotaryParameters(0, juce::MathConstants<float>::twoPi, 0);
     azimSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
@@ -226,9 +208,7 @@ void SPATControlAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawRoundedRectangle(10, 45, 270, 180, 4, 2);
     g.drawRoundedRectangle(10, 235, 440, 90, 4, 2);
 
-    // g.setColour(juce::Colours::darkgrey);
-    g.setFont(10.0f);
-    
+    g.setFont(10.0f);    
 }
 
 void SPATControlAudioProcessorEditor::resized()
@@ -260,9 +240,6 @@ void SPATControlAudioProcessorEditor::resized()
     apertureSlider.setBounds(250, 255, 75, 75);
     earlywidthSlider.setBounds(310, 255, 75, 75);
     earlyshapeSlider.setBounds(370, 255, 75, 75);
-    
-    
-
 }
 
 void SPATControlAudioProcessorEditor::textEditorTextChanged(juce::TextEditor& textEditor)

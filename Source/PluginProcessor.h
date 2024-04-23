@@ -75,11 +75,8 @@ private:
     void sendAEDtoSpat();
     void sendAEDtoPanoramix();
 
-
-
     void parameterChanged(const juce::String& parameterID, float newValue);
-
-    
+  
     int idx = 1;
     int sourceType = 0;
     float radius = 0.0f;
@@ -87,9 +84,6 @@ private:
     float azimuth = 0.0f;
     float elevation = 0.0f;
     float dist = 1.0f;
-
-    
-
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SPATControlAudioProcessor)

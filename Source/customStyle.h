@@ -20,7 +20,9 @@ namespace juce
     public:
         void drawRotarySlider(Graphics&, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider&);
         
-        Label* createSliderTextBox(Slider& Slider) override;
+        Slider::SliderLayout getSliderLayout(Slider& slider) override;
+
+        // Label* createSliderTextBox(Slider& Slider) override;
         
                 
         Font getComboBoxFont(ComboBox& /*box*/) override
@@ -54,12 +56,12 @@ namespace juce
         CustomDial()
         {
             setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-            //setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::orange);
-            //setColour(Slider::ColourIds::thumbColourId, Colours::orange);
+            setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::orange);
+            setColour(Slider::ColourIds::thumbColourId, Colours::orange);
             // setSize(80, 80);
             setTextBoxStyle(Slider::TextBoxBelow, false, 80, 24);
-            //setColour(Slider::ColourIds::textBoxOutlineColourId, Colours::transparentWhite);
-            //setColour(Slider::ColourIds::textBoxTextColourId, Colours::black);
+            setColour(Slider::ColourIds::textBoxOutlineColourId, Colours::transparentWhite);
+            setColour(Slider::ColourIds::textBoxTextColourId, Colours::black);
             
             
         }
