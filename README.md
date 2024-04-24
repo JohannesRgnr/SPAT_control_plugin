@@ -6,7 +6,7 @@ https://forum.ircam.fr/projects/detail/spat/
 
 https://forum.ircam.fr/projects/detail/panoramix/
 
-<img src="spatcontrol.png" alt="Spat Control" />
+<img src="spatcontrol2.png" alt="Spat Control" />
 
 
 
