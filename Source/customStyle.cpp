@@ -21,7 +21,7 @@ namespace juce
 
         auto radius = jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
         auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-        auto lineW = jmin(8.0f, radius * 0.2f);
+        auto lineW = jmin(8.0f, radius * 0.1f);
         auto arcRadius = radius - lineW * 0.5f;
 
         Path backgroundArc;
@@ -35,7 +35,7 @@ namespace juce
             true);
 
         g.setColour(outline);
-        g.strokePath(backgroundArc, PathStrokeType(lineW-1, PathStrokeType::curved, PathStrokeType::rounded));
+        g.strokePath(backgroundArc, PathStrokeType(2*lineW-0.5, PathStrokeType::curved, PathStrokeType::rounded));
 
         if (slider.isEnabled())
         {
@@ -50,15 +50,18 @@ namespace juce
                 true);
 
             g.setColour(fill);
-            g.strokePath(valueArc, PathStrokeType(lineW, PathStrokeType::curved, PathStrokeType::rounded));
+            g.strokePath(valueArc, PathStrokeType(2*lineW, PathStrokeType::curved, PathStrokeType::rounded));
         }
 
        
-        Point<float> thumbPoint(bounds.getCentreX() + (arcRadius + lineW * 0.5) * std::cos(toAngle - MathConstants<float>::halfPi),
-            bounds.getCentreY() + (arcRadius + lineW * 0.5) * std::sin(toAngle - MathConstants<float>::halfPi));
+        Point<float> thumbPoint(bounds.getCentreX() + (arcRadius - lineW*3 ) * std::cos(toAngle - MathConstants<float>::halfPi),
+            bounds.getCentreY() + (arcRadius - lineW*3 ) * std::sin(toAngle - MathConstants<float>::halfPi));
+        Point<float> startPoint(bounds.getCentreX() + (0.4 * arcRadius) * std::cos(toAngle - MathConstants<float>::halfPi),
+            bounds.getCentreY() + (0.4 * arcRadius ) * std::sin(toAngle - MathConstants<float>::halfPi));
 
         g.setColour(slider.findColour(Slider::thumbColourId));
-        g.drawLine(bounds.getCentreX(), bounds.getCentreY(), thumbPoint.getX(), thumbPoint.getY(), lineW);
+        //g.drawLine(bounds.getCentreX(), bounds.getCentreY(), thumbPoint.getX(), thumbPoint.getY(), lineW);
+        g.drawLine(startPoint.getX(), startPoint.getY(), thumbPoint.getX(), thumbPoint.getY(), lineW);
 
     }
 

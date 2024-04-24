@@ -17,7 +17,7 @@ SPATControlAudioProcessorEditor::SPATControlAudioProcessorEditor (SPATControlAud
     juce::LookAndFeel::setDefaultLookAndFeel(&myLNF);
 
 
-    setSize (460, 330);
+    setSize (405, 265);
     setWantsKeyboardFocus(true);
     
     typeBox.addItem("mono", 1);
@@ -49,29 +49,29 @@ SPATControlAudioProcessorEditor::SPATControlAudioProcessorEditor (SPATControlAud
     azimSlider.setRotaryParameters(0, juce::MathConstants<float>::twoPi, 0);
     azimSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
     azimSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    azimSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    azimSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     distSlider.setTextValueSuffix(" m");
     distSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    distSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    distSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     elevSlider.setRotaryParameters(juce::MathConstants<float>::pi, 0, 1);
     elevSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
     elevSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    elevSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    elevSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     yawSlider.setRotaryParameters(0, juce::MathConstants<float>::twoPi, 0);
     yawSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
     yawSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    yawSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    yawSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     apertureSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
     apertureSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    apertureSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    apertureSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     earlywidthSlider.setTextValueSuffix(juce::CharPointer_UTF8("\xc2\xb0"));
     earlywidthSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
-    earlywidthSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::deepskyblue);
+    earlywidthSlider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::grey);
 
     earlyshapeSlider.setTextValueSuffix(" %");
     earlyshapeSlider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colours::deepskyblue);
@@ -202,44 +202,84 @@ SPATControlAudioProcessorEditor::~SPATControlAudioProcessorEditor()
 //==============================================================================
 void SPATControlAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll(juce::Colours::lightgrey);
-    g.setColour(juce::Colours::darkgrey);
+    g.fillAll(juce::Colours::darkgrey);
+    // g.setColour(juce::Colours::grey);
 
-    g.drawRoundedRectangle(10, 45, 270, 180, 4, 2);
-    g.drawRoundedRectangle(10, 235, 440, 90, 4, 2);
+    //g.fillRoundedRectangle(10, 45, 270, 180, 4);
+    
+    //g.fillRoundedRectangle(10, 235, 440, 80, 4);
 
-    g.setFont(10.0f);    
+    juce::Path path1, path2, path3;
+    path1.addRoundedRectangle(0, 0, 405, 30, 3);
+    path2.addRoundedRectangle(0, 30, 250, 160, 3);
+    path3.addRoundedRectangle(0, 190, 405, 75, 3);
+    /*juce::DropShadow(juce::Colours::black, 10, { 2, 1 }).drawForPath(g, path1);
+    juce::DropShadow(juce::Colours::black, 10, { 2, 1 }).drawForPath(g, path2);
+    juce::DropShadow(juce::Colours::black, 10, { 2, 1 }).drawForPath(g, path3);*/
+
+    g.setColour(juce::Colour::fromString("FFC4C4C4"));
+    juce::ColourGradient cg = juce::ColourGradient::vertical(juce::Colour::fromString("FFC4C4C4"), 27, juce::Colours::darkgrey, 30);
+    g.setGradientFill(cg);
+    g.fillPath(path1);
+
+    cg = juce::ColourGradient::vertical(juce::Colour::fromString("FFC4C4C4"), 187, juce::Colours::darkgrey, 190);
+    g.setGradientFill(cg);
+    g.fillPath(path2);
+
+    cg = juce::ColourGradient::vertical(juce::Colour::fromString("FFC4C4C4"), 260, juce::Colours::darkgrey, 265);
+    g.setGradientFill(cg);
+    g.fillPath(path3);
+
+    // g.setFont(10.0f);
+    g.setFont(24.0f);
+    g.drawFittedText("SPAT Control", 260, 30, 150, 50, juce::Justification::centred, 1);
+    g.setFont(10.0f);
+    g.drawFittedText("v.0.1_04/2024", 330, 60, 75, 20, juce::Justification::centred, 1);
 }
 
 void SPATControlAudioProcessorEditor::resized()
 {
+    int x_pos, y_pos1, y_pos2, x_space;
+
+    /********* upper section ********/
+    y_pos1 = 3;
+
+    sourceLabel.setBounds(0, y_pos1, 40, 20);
+    indexBox.setBounds(40, y_pos1, 50, 20);
+
+    typeBox.setBounds(100, y_pos1, 65, 20);
+      
+    spatPortLabel.setBounds(155, y_pos1, 65, 20);
+    spatPortText.setBounds(215, y_pos1, 40, 20);
+
+    panoramixPortLabel.setBounds(220, y_pos1, 130, 20);
+    panoramixPortText.setBounds(350, y_pos1, 40, 20);
+
+    /********* source section ********/
+    x_pos = 0;
+    x_space = 80;
+    y_pos1 = 47;
+    y_pos2 = y_pos1 + 75;
+
+    presSlider.setBounds(x_pos, y_pos1, 80, 80);
+    warmthSlider.setBounds(x_pos + x_space, y_pos1, 80, 80);
+    brillianceSlider.setBounds(x_pos + 2 * x_space, y_pos1, 80, 80);
+    roomPresSlider.setBounds(x_pos, y_pos2, 80, 80);
+    runRevSlider.setBounds(x_pos + x_space, y_pos2, 80, 80);
+    envSlider.setBounds(x_pos + 2 * x_space, y_pos2, 80, 80);
+
+    /********* position section ********/
+    x_pos = 0;
+    x_space = 55;
+    y_pos1 = 205;
     
-    sourceLabel.setBounds(10, 15, 40, 22);
-    indexBox.setBounds(50, 15, 50, 22);
-
-    typeBox.setBounds(110, 15, 90, 22);
-
-   
-    spatPortLabel.setBounds(210, 15, 65, 20);
-    spatPortText.setBounds(275, 15, 40, 20);
-
-    panoramixPortLabel.setBounds(315, 15, 95, 20);
-    panoramixPortText.setBounds(410, 15, 40, 20);
-
-    presSlider.setBounds(10, 70, 80, 80);
-    warmthSlider.setBounds(100, 70, 80, 80);
-    brillianceSlider.setBounds(190, 70, 80, 80);
-    roomPresSlider.setBounds(10, 155, 80, 80);
-    runRevSlider.setBounds(100, 155, 80, 80);
-    envSlider.setBounds(190, 155, 80, 80);
-
-    azimSlider.setBounds(10, 255, 75, 75);
-    elevSlider.setBounds(70, 255, 75, 75);
-    distSlider.setBounds(130, 255, 75, 75);
-    yawSlider.setBounds(190, 255, 75, 75);
-    apertureSlider.setBounds(250, 255, 75, 75);
-    earlywidthSlider.setBounds(310, 255, 75, 75);
-    earlyshapeSlider.setBounds(370, 255, 75, 75);
+    azimSlider.setBounds(x_pos, y_pos1, 75, 75);
+    elevSlider.setBounds(x_pos + x_space, y_pos1, 75, 75);
+    distSlider.setBounds(x_pos + 2*x_space, y_pos1, 75, 75);
+    yawSlider.setBounds(x_pos + 3*x_space, y_pos1, 75, 75);
+    apertureSlider.setBounds(x_pos + 4*x_space, y_pos1, 75, 75);
+    earlywidthSlider.setBounds(x_pos + 5*x_space, y_pos1, 75, 75);
+    earlyshapeSlider.setBounds(x_pos + 6*x_space, y_pos1, 75, 75);
 }
 
 void SPATControlAudioProcessorEditor::textEditorTextChanged(juce::TextEditor& textEditor)

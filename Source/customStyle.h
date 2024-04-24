@@ -57,7 +57,7 @@ namespace juce
         {
             setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
             setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::orange);
-            setColour(Slider::ColourIds::thumbColourId, Colours::orange);
+            setColour(Slider::ColourIds::thumbColourId, Colours::grey);
             // setSize(80, 80);
             setTextBoxStyle(Slider::TextBoxBelow, false, 80, 24);
             setColour(Slider::ColourIds::textBoxOutlineColourId, Colours::transparentWhite);
