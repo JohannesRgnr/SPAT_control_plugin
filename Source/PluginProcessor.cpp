@@ -39,10 +39,12 @@ SPATControlAudioProcessor::SPATControlAudioProcessor()
     apvts.addParameterListener("ELEV", this);
     apvts.addParameterListener("YAW", this);
     apvts.addParameterListener("APERTURE", this);
+    apvts.addParameterListener("WIDTH", this);
     apvts.addParameterListener("EARLYWIDTH", this);
     apvts.addParameterListener("EARLYSHAPE", this);
 
     apvts.addParameterListener("TYPE", this);
+    apvts.addParameterListener("MODE", this);
 
 }
 
@@ -218,11 +220,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout SPATControlAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DIST", "dist", juce::NormalisableRange<float>(0.0f, 30.0f, 0.01f, 1.0f), 1.0f)); // NormalisableRange if skew factor needs to be specified
     params.push_back(std::make_unique<juce::AudioParameterFloat>("YAW", "yaw", 0.0f, 360.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("APERTURE", "aperture", 10.0f, 180.0f, 80.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("WIDTH", "width", 0.0f, 360.0f, 30.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EARLYWIDTH", "earlywidth", 0.0f, 180.0f, 30.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EARLYSHAPE", "earlyshape", 0.0f, 100.0f, 50.0f));
     
     params.push_back(std::make_unique<juce::AudioParameterInt>("INDEX", "index", 1, 64, 1));
     params.push_back(std::make_unique<juce::AudioParameterInt>("TYPE", "type", 0, 1, 0));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("MODE", "mode", 0, 1, 0));
 
     return { params.begin(), params.end() };
 
@@ -294,15 +298,26 @@ void SPATControlAudioProcessor::parameterChanged(const juce::String& parameterID
         
         // DBG("type: " << type);
     }
-   
-    
-
     else if (parameterID == "INDEX")
     {
         idx = apvts.getRawParameterValue("INDEX")->load();
         // DBG("idx: " << idx);
     }
+    else if (parameterID == "MODE")
+    {
 
+    }
+    else if (parameterID == "WIDTH")
+    {
+        if (type)
+        {
+            addressPanoramix = juce::String::formatted("/stereo/%d/width", idx);
+            juce::OSCMessage panoramixMessage(addressPanoramix);
+
+            panoramixMessage.addFloat32(newValue);
+            panoramixMessageSender.send(panoramixMessage);
+        }
+    }
     else if (parameterID == "DIST"  || parameterID == "ELEV" || parameterID == "AZIM")
     {
         sendAEDtoSpat();
@@ -311,7 +326,16 @@ void SPATControlAudioProcessor::parameterChanged(const juce::String& parameterID
     else if (parameterID == "EARLYWIDTH")
     {
         addressSpat = juce::String::formatted("/source/%d/early/width", idx);
-        addressPanoramix = juce::String::formatted("/track/%d/early/width", idx);
+        
+
+        if (type)
+        {
+            addressPanoramix = juce::String::formatted("/stereo/%d/early/width", idx);
+        }
+        else
+        {
+            addressPanoramix = juce::String::formatted("/track/%d/early/width", idx);
+        }
 
         juce::OSCMessage spatMessage(addressSpat);
         juce::OSCMessage panoramixMessage(addressPanoramix);

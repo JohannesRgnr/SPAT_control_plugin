@@ -79,6 +79,7 @@ private:
   
     int idx = 1;
     int sourceType = 0;
+    int mode = 0;
     float radius = 0.0f;
     float volFactor = 1.0f;
     float azimuth = 0.0f;
