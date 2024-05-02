@@ -16,7 +16,7 @@ Allows control via OSC of the following parameters:
 - Early shape
 
 OSC packets are sent to 2 ports: one for Spat (connect a <udpreceive 9001> object to <spat5.oper>), one for Panoramix.<br>
-For Panoramix, only the following parameters are recognized: azimuth, elevation, distance, early width.
+For Panoramix, the following parameters are recognized: azimuth, elevation, distance, width (for stereo source), early width.
 
 https://forum.ircam.fr/projects/detail/spat/<br>
 https://forum.ircam.fr/projects/detail/panoramix/
