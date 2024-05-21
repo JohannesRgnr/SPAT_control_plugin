@@ -16,7 +16,7 @@ SPATControlAudioProcessorEditor::SPATControlAudioProcessorEditor (SPATControlAud
     
     juce::LookAndFeel::setDefaultLookAndFeel(&myLNF);
 
-
+    /** editor elements  **/
     setSize (460, 265);
     setWantsKeyboardFocus(true);
     
