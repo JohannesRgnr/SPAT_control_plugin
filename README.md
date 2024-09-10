@@ -1,6 +1,6 @@
 ## SPAT Control Plugin
 
-A small plugin to control the main source parameters for IRCAM Spat and/or Panoramix. 
+ Plugin to control the main source parameters for IRCAM Spat and/or Panoramix. 
 
 Allows control via OSC of the following parameters:
 - Source presence
